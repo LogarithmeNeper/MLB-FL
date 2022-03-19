@@ -2,6 +2,8 @@ import pybaseball
 import statsapi
 import global_vars as g
 
-def lookup():
-    for team in g.list_of_teams:
-        print(team, statsapi.lookup_team(team)[0]['id'])
+# Example game : 706907
+
+def get_id_last_games():
+    last_games = [statsapi.last_game(id) for id in g.id_of_teams]
+    return last_games   
