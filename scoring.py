@@ -1,11 +1,6 @@
 import statsapi
 import datetime
-import global_vars as g
 import csv
-
-def get_id_last_games():
-    last_games = [statsapi.last_game(id) for id in g.id_of_teams]
-    return last_games
 
 def check_date(data: dict):
     """
@@ -56,6 +51,7 @@ def score_game(gamePk: int, out: bool=True):
     Computes the score for each player in the game given as the game id.
     """
     data = statsapi.boxscore_data(gamePk)
+    date = data['gameId'][5:10]
     # Checking if the game was played yesterday.
     if check_date(data):
         game_score = [['Team', 'Player', 'Score']]
@@ -91,7 +87,7 @@ def score_game(gamePk: int, out: bool=True):
         # Writing output
         if out:
             path = './output/'
-            filename = away_team + '_' + home_team + '.csv'
+            filename = away_team + '_' + home_team + '_' + date.replace('/', '_') + '.csv'
             with open(path+filename, "w", newline="") as f:
                 writer = csv.writer(f)
                 writer.writerows(game_score)
@@ -99,3 +95,9 @@ def score_game(gamePk: int, out: bool=True):
         # Returning as a variable
         return game_score
     return None
+
+def score_games(lst_of_gamePk: list, out: bool=True):
+    scores = []
+    for gamePk in lst_of_gamePk:
+        scores += score_game(gamePk, out)
+    return scores
