@@ -99,5 +99,20 @@ def score_game(gamePk: int, out: bool=True):
 def score_games(lst_of_gamePk: list, out: bool=True):
     scores = []
     for gamePk in lst_of_gamePk:
-        scores += score_game(gamePk, out)
+        scores += score_game(gamePk, out)[1:]
+    # Raw values game after game
+    with open('./output/raw_output.csv', "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerows(scores)
+    # Sorted values
+    # Alphabetical on players name
+    alphasorted_scores = sorted(scores, key=lambda x: x[1])
+    with open('./output/alpha_output.csv', "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerows(alphasorted_scores)
+    # By score
+    scoresorted_scores = sorted(scores, key=lambda x: x[2], reverse=True)
+    with open('./output/score_output.csv', "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerows(scoresorted_scores)
     return scores
