@@ -1,6 +1,7 @@
 import statsapi
 import datetime
 import global_vars as g
+import csv
 
 def get_id_last_games():
     last_games = [statsapi.last_game(id) for id in g.id_of_teams]
@@ -50,7 +51,7 @@ def pitcher_score(player: dict):
         return [player_name, score]
     return None
 
-def score_game(gamePk: int):
+def score_game(gamePk: int, out: bool=True):
     """
     Computes the score for each player in the game given as the game id.
     """
@@ -86,5 +87,15 @@ def score_game(gamePk: int):
             score = batter_score(batter)
             if score is not None:
                 game_score.append([away_team] + score)
+
+        # Writing output
+        if out:
+            path = './output/'
+            filename = away_team + '_' + home_team + '.csv'
+            with open(path+filename, "w", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerows(game_score)
+
+        # Returning as a variable
         return game_score
     return None
