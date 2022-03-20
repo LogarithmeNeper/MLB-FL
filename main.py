@@ -1,4 +1,4 @@
-import data
+import scoring
 import json
 import statsapi
 
