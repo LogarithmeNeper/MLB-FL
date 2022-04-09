@@ -88,7 +88,7 @@ def score_game(gamePk: int, out: bool=True):
         if out:
             path = './output/'
             filename = away_team + '_' + home_team + '_' + date.replace('/', '_') + '.csv'
-            with open(path+filename, "w", newline="") as f:
+            with open(path+filename, "w", newline="", encoding='utf-8') as f:
                 writer = csv.writer(f)
                 writer.writerows(game_score)
 
@@ -103,18 +103,18 @@ def score_games(lst_of_gamePk: list, out: bool=True):
         if score is not None:
             scores += score[1:]
     # Raw values game after game
-    with open('./output/raw_output.csv', "w", newline="") as f:
+    with open('./output/raw_output.csv', "w", newline="", encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerows(scores)
     # Sorted values
     # Alphabetical on players name
     alphasorted_scores = sorted(scores, key=lambda x: x[1])
-    with open('./output/alpha_output.csv', "w", newline="") as f:
+    with open('./output/alpha_output.csv', "w", newline="", encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerows(alphasorted_scores)
     # By score
     scoresorted_scores = sorted(scores, key=lambda x: x[2], reverse=True)
-    with open('./output/score_output.csv', "w", newline="") as f:
+    with open('./output/score_output.csv', "w", newline="", encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerows(scoresorted_scores)
     return scores
