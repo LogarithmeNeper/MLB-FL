@@ -99,7 +99,9 @@ def score_game(gamePk: int, out: bool=True):
 def score_games(lst_of_gamePk: list, out: bool=True):
     scores = []
     for gamePk in lst_of_gamePk:
-        scores += score_game(gamePk, out)[1:]
+        score = score_game(gamePk, out)
+        if score is not None:
+            scores += score[1:]
     # Raw values game after game
     with open('./output/raw_output.csv', "w", newline="") as f:
         writer = csv.writer(f)
